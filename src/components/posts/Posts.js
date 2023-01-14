@@ -13,7 +13,6 @@ import {
 import { fetchPosts } from "./redux/postsSlice";
 import Post from "./post/Post";
 import useStyles from "./styles";
-import { Link } from "react-router-dom";
 
 export default function Posts({ setCurrentId }) {
   const classess = useStyles();
@@ -37,12 +36,10 @@ export default function Posts({ setCurrentId }) {
     >
       {posts?.map((post) => (
         <Grid key={post._id} item xs={12} sm={6}>
-          <Link style={{textDecoration: 'none'}} to={post._id}>
-            <Post
-              post={post}
-              setCurrentId={setCurrentId}
-            />
-          </Link>
+          <Post
+            post={post}
+            setCurrentId={setCurrentId}
+          />
         </Grid>
       ))}
     </Grid>

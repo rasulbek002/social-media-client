@@ -1,5 +1,4 @@
 // External dependencies
-import axios from "axios";
 import moment from "moment";
 import {
   Card,
@@ -9,6 +8,7 @@ import {
   Button,
   Typography,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import DeleteIson from "@material-ui/icons/Delete";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -18,20 +18,43 @@ import { useDispatch } from "react-redux";
 // Local dependencies
 import { selectPost } from "../redux/postsSlice";
 import useStyles from "./styles";
+import {
+  deletePostRequest,
+  updatePost,
+} from "./redux/createPostSlice";
 
 export default function Post({ post }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  async function handleOnClickLike(updatePost) {
-    const { data } = await axios.put(
-      "http://localhost:5000/posts" +
-        "/" +
-        updatePost.id,
-      updatePost
+  function deletePost(id) {
+    dispatch(deletePostRequest(id));
+  }
+
+  function handleOnClickLike(updatedPost) {
+    const liked = JSON.parse(
+      localStorage.getItem(
+        `liked${updatedPost._id}`
+      )
     );
 
-    return data;
+    if (liked) {
+      console.log(!JSON.parse(liked));
+      updatedPost.likeCount = post.likeCount - 1;
+      localStorage.setItem(
+        `liked${updatedPost._id}`,
+        !liked
+      );
+
+      dispatch(updatePost(updatedPost));
+    } else {
+      localStorage.setItem(
+        `liked${updatedPost._id}`,
+        !liked
+      );
+
+      dispatch(updatePost(updatedPost));
+    }
   }
 
   function handleSelectPost() {
@@ -62,6 +85,7 @@ export default function Post({ post }) {
           <MoreHorizIcon fontSize="default" />
         </Button>
       </div>
+
       <div className={classes.details}>
         <Typography
           variant="body2"
@@ -76,15 +100,20 @@ export default function Post({ post }) {
           {post?.tags?.map((tag) => `#${tag}, `)}
         </Typography>
       </div>
-      <CardContent>
-        <Typography
-          className={classes.title}
-          variant="p"
-          gutterBottom
-        >
-          {post.message}
-        </Typography>
-      </CardContent>
+      <Link
+        style={{ textDecoration: "none" }}
+        to={post._id}
+      >
+        <CardContent>
+          <Typography
+            className={classes.title}
+            variant="p"
+            gutterBottom
+          >
+            {post.message}
+          </Typography>
+        </CardContent>
+      </Link>
       <CardActions
         className={classes.cardActions}
       >
@@ -92,8 +121,8 @@ export default function Post({ post }) {
           size="small"
           onClick={() =>
             handleOnClickLike({
-              id: post.id,
-              likeCount: 1,
+              _id: post._id,
+              likeCount: post.likeCount + 1,
             })
           }
           color="primary"
@@ -103,8 +132,8 @@ export default function Post({ post }) {
         </Button>
         <Button
           size="small"
-          onClick={() => null}
           color="primary"
+          onClick={() => deletePost(post._id)}
         >
           <DeleteIson fontSize="small" />
           Delete

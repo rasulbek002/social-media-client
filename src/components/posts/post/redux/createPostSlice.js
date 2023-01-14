@@ -24,6 +24,17 @@ export const createPostRequest = createAsyncThunk(
   }
 );
 
+export const deletePostRequest = createAsyncThunk(
+  "createPost/deletePostRequest",
+  async (id) => {
+    const { data } = await axios.delete(
+      `${url}/${id}`
+    );
+
+    return data;
+  }
+);
+
 export const updatePost = createAsyncThunk(
   "createPost/updatePost",
   async (updatePost) => {
@@ -84,6 +95,28 @@ const createPostSlice = createSlice({
 
     builder.addCase(
       updatePost.rejected,
+      (state, action) => {
+        state.loading = false;
+        state.isSuccess = true;
+        state.error = action.error;
+      }
+    );
+    builder.addCase(
+      deletePostRequest.fulfilled,
+      (state, action) => {
+        state.loading = false;
+        state.isSuccess = true;
+      }
+    );
+    builder.addCase(
+      deletePostRequest.pending,
+      (state) => {
+        state.loading = true;
+      }
+    );
+
+    builder.addCase(
+      deletePostRequest.rejected,
       (state, action) => {
         state.loading = false;
         state.isSuccess = true;
