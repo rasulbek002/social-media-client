@@ -33,15 +33,15 @@ export default function Navbar() {
         >
           It companies
         </Typography>
-        <img
+        {/* <img
           className={classes.image}
           src={memories}
           alt="memories"
           height="60"
           width="60px"
-        ></img>
+        ></img> */}
       </div>
-      <Toolbar className={classes.toolbar}>
+      {/* <Toolbar className={classes.toolbar}>
         {user ? (
           <div className={classes.profile}>
             <Avatar
@@ -74,7 +74,7 @@ export default function Navbar() {
             </Button>
           </div>
         )}
-      </Toolbar>
+      </Toolbar> */}
     </AppBar>
   );
 }
