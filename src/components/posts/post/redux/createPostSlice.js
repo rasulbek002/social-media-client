@@ -10,7 +10,7 @@ const initialState = {
   post: [],
 };
 
-const url = "http://localhost:5000/posts";
+const url = "https://social-media-server-wheat.vercel.app/posts";
 
 export const createPostRequest = createAsyncThunk(
   "createPost/createPostReques",

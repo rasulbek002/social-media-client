@@ -11,7 +11,7 @@ export const fetchPosts = createAsyncThunk(
   "posts/fetchPosts",
   async () => {
     const response = await axios.get(
-      "http://localhost:5000/posts"
+     "https://social-media-server-wheat.vercel.app/posts"
     );
 
     return response.data;
