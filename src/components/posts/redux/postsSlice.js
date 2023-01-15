@@ -11,7 +11,7 @@ export const fetchPosts = createAsyncThunk(
   "posts/fetchPosts",
   async () => {
     const response = await axios.get(
-     "https://social-media-server-wheat.vercel.app/posts"
+      "https://social-media-server-wheat.vercel.app/posts"
     );
 
     return response.data;
@@ -22,7 +22,7 @@ export const getPost = createAsyncThunk(
   "post/getPost",
   async (action) => {
     const response = await axios.get(
-      `http://localhost:5000/posts/${action}`
+      `https://social-media-server-wheat.vercel.app/posts/${action}`
     );
 
     return response.data;
